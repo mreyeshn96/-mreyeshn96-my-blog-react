@@ -11,10 +11,13 @@ export const CategoryCard = (category) => {
         <div>
             <div className="card mx-1 ml-0">
                 <div className="card-body">
-                    {category.post.title}
+                    <div className="d-flex flex-column">
+                        {category.post.title}
+                        <Link to={`/categories/${category.post.categoryId}/post/${category.post.id}`}>Go to post</Link>
+                    </div>
                 </div>
                 <div className="card-footer">
-                    Posted <Moment toNow>{category.post.createdAt}</Moment>
+                    Posted by {category.post.userId}
                 </div>
             </div>
         </div>

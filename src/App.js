@@ -6,6 +6,7 @@ import './App.css';
 import { Header } from './layout/Header';
 import { CategoryScreen } from './screen/CategoryScreen';
 import { PostCreateScreen } from './screen/PostCreateScreen';
+import { PostScreen } from './screen/PostScreen';
 
 function App() {
   return (
@@ -28,6 +29,10 @@ function App() {
 
             <Route exact path="/categories/:id/create">
               <PostCreateScreen ></PostCreateScreen>
+            </Route>
+
+            <Route exact path="/categories/:idc/post/:idp">
+              <PostScreen ></PostScreen>
             </Route>
 
           </Switch>

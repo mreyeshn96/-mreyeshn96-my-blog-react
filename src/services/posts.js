@@ -22,3 +22,8 @@ export const createPost = async (cat_id, user_id, object) => {
     return await axios.post(`${serviceConfig.API_URL}/create`, data);
 
 }
+
+export const getPost = async (id) => {
+    const { data } = await axios.get(`${serviceConfig.API_URL}/${id}`);
+    return await data;
+}
