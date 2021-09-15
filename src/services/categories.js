@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const serviceConfig = {
-    API_URL: 'https://react-backend-core.azurewebsites.net/api/Category'
+    API_URL: 'https://acklen-backend-core.herokuapp.com/api/Category'
 }
 
 export const getCategories = async () => {
