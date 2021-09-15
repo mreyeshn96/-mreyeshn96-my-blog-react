@@ -2,9 +2,10 @@ import { useState } from 'react';
 import 'bootbox/dist/bootbox.all.min.js';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { createPost } from '../services/posts';
+import { createPost, editPost, getPost } from '../services/posts';
 import { useParams } from 'react-router';
 import { useAuth0 } from '@auth0/auth0-react';
+import { useEffect } from 'react';
 
 export const Spinner = () => {
     return (
@@ -14,32 +15,42 @@ export const Spinner = () => {
         </div>
     );
 }
-export const PostCreateScreen = () => {
-    const [form, setForm] = useState({title: '', body: ''});
+
+export const PostEditScreen = () => {
     const [sending, setSending] = useState({send: false});
     const { isAuthenticated, user } = useAuth0();
-    const { id } = useParams();
+    const { idc, idp } = useParams();
+    const [form, setForm] = useState({title: '', body: ''});
+
+    useEffect( () => {
+        const loadPostData = async () => {
+            const postData = await getPost(idp);
+            setForm(postData);
+            console.log(postData);
+        }
+
+        loadPostData();
+    }, []);
+
+    
+    
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("H1");
         if( form.title.length == 0 || form.title.length == 0 )
         {
-            console.log("H2");
             alert("all fields are required to fill!");
         }
         else
         {
-            console.log("H3");
             if( !isAuthenticated )
             {
-                console.log("H4");
                 alert("You need to log in to perform this action");
             }
             else
             {
                 setSending({send: true});
-                let r = await createPost(id, user.email, form).then( () => setTimeout(() => window.location.href=`/categories/${id}`, 2000) );
+                let r = await editPost(idp, idc, user.email, form).then( () => setTimeout(() => window.location.href=`/categories/${idc}/post/${idp}`, 2000) );
             }
         }
        
@@ -60,20 +71,19 @@ export const PostCreateScreen = () => {
     return (
         <div className="container-fluid my-2">
             <div className="card">
-                <div className="card-header"><span className="card-title">Create a new post</span></div>
+                <div className="card-header"><span className="card-title">Edit post</span></div>
                 <div className="card-body">
                     <form onSubmit={handleSubmit}>
                         <div className="form-group">
                             <label htmlFor="title" className="form-label">Title:</label>
-                            <input type="text" name="title" id="title" className="form-control" onChange={handleChange}/>
+                            <input type="text" name="title" id="title" className="form-control" onChange={handleChange} value={form.title}/>
                         </div>
                         <div className="form-group">
                             <label htmlFor="body" className="form-label">Body:</label>
                             <CKEditor
                                 editor={ ClassicEditor }
-                                data=""
+                                data={form.body}
                                 name="body"
-      
                                 onReady={ editor => {
                                     // You can store the "editor" and use when it is needed.
                                     console.log( 'Editor is ready to use!', editor );
@@ -92,7 +102,7 @@ export const PostCreateScreen = () => {
                         </div>
 
                         <div className="form-group my-1">
-                            <button type="submit" className="btn btn-info btn-block text-white w-100">Create</button>
+                            <button type="submit" className="btn btn-info btn-block text-white w-100">Update</button>
                         </div>
                         <div className="form-group">
                             { sending.send && <Spinner/> }

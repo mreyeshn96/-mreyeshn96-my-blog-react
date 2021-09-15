@@ -6,6 +6,7 @@ import './App.css';
 import { Header } from './layout/Header';
 import { CategoryScreen } from './screen/CategoryScreen';
 import { PostCreateScreen } from './screen/PostCreateScreen';
+import { PostEditScreen } from './screen/PostEditScreen';
 import { PostScreen } from './screen/PostScreen';
 
 function App() {
@@ -33,6 +34,10 @@ function App() {
 
             <Route exact path="/categories/:idc/post/:idp">
               <PostScreen ></PostScreen>
+            </Route>
+
+            <Route exact path="/categories/:idc/post/:idp/edit">
+              <PostEditScreen></PostEditScreen>
             </Route>
 
           </Switch>
