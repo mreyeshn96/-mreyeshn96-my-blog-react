@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
-import { BrowserRouter, Link } from 'react-router-dom';
+import { BrowserRouter, NavLink } from 'react-router-dom';
 import { getCategories } from '../services/categories';
 
 export const AccountLoggedIn = () => {
@@ -42,7 +42,7 @@ export const Header = () => {
     }, []);
 
     return (
-        <BrowserRouter>
+        
             <div>
                 <nav className="navbar navbar-expand-lg navbar-light bg-light">
                     <div className="container-fluid">
@@ -59,7 +59,7 @@ export const Header = () => {
                                     categories.map( (e) => {
                                         return (
                                                 <li className="nav-item" key={e.id}>
-                                                    <Link className="nav-link" to={`categories/${e.id}`}>{e.name}</Link>
+                                                    <NavLink className="nav-link" activeClassName="active" to={`/categories/${e.id}`}>{e.name}</NavLink>
                                                 </li>
                                             );
                                         } 
@@ -76,6 +76,6 @@ export const Header = () => {
                     </div>
                 </nav>
             </div>
-        </BrowserRouter>
+        
     );
 }
